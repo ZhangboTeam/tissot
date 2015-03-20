@@ -21,7 +21,7 @@ namespace tissot
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string conns = "server=120.26.56.165\sqlexpress;uid=sa;pwd=123456;database=tissotmsgs";
+            string conns = @"server=120.26.56.165\sqlexpress;uid=sa;pwd=123456;database=tissotmsgs";
             SqlConnection co = new SqlConnection(conns);
             co.Open();
             SqlCommand cm = new SqlCommand();
