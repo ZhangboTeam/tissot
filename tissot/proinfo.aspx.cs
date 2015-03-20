@@ -21,15 +21,15 @@ namespace tissot
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string conns = @"server=120.26.56.165\sqlexpress;uid=sa;pwd=123456;database=tissotmsgs";
-            SqlConnection co = new SqlConnection(conns);
-            co.Open();
-            SqlCommand cm = new SqlCommand();
-            cm.Connection = co;
-            cm.CommandText = "select url from uurl where name='二维码'";
-            SqlDataReader fd = cm.ExecuteReader();
-            if (fd.Read())
-            {
+            //string conns = @"server=120.26.56.165\sqlexpress;uid=sa;pwd=123456;database=tissotmsgs";
+            //SqlConnection co = new SqlConnection(conns);
+            //co.Open();
+            //SqlCommand cm = new SqlCommand();
+            //cm.Connection = co;
+            //cm.CommandText = "select url from uurl where name='二维码'";
+            //SqlDataReader fd = cm.ExecuteReader();
+            //if (fd.Read())
+            //{
                 //SqlDataReader urls = cm.ExecuteReader();
                 //lk.Text = urls.ToString();
                 //Response.Redirect("http://www.baidu.com");
@@ -134,18 +134,20 @@ namespace tissot
                     os = "计算机";
                 }
 
-                string connstr = "120.26.56.165\sqlexpress;uid=sa;pwd=123456;database=tissotmsgs";
-                SqlConnection coo = new SqlConnection(connstr);
-                coo.Open();
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = coo;
-                //cmd.CommandText = "insert into userinfo(ip,city,os,name)values('uip','country','ios','二维码')";
-                cmd.CommandText = "insert into userinfo(ip,city,os,name,time) values (@uip,@country,@os,'二维码',getdate())";
-                cmd.Parameters.Add(new SqlParameter("@uip", uip));
-                cmd.Parameters.Add(new SqlParameter("@country", country));
-                cmd.Parameters.Add(new SqlParameter("@os", os));
-                SqlDataReader dr = cmd.ExecuteReader();
-                coo.Close();
+                //string connstr = "120.26.56.165\sqlexpress;uid=sa;pwd=123456;database=tissotmsgs";
+                //SqlConnection coo = new SqlConnection(connstr);
+                //coo.Open();
+                //SqlCommand cmd = new SqlCommand();
+                //cmd.Connection = coo;
+                ////cmd.CommandText = "insert into userinfo(ip,city,os,name)values('uip','country','ios','二维码')";
+                //cmd.CommandText = "insert into userinfo(ip,city,os,name,time) values (@uip,@country,@os,'二维码',getdate())";
+                //cmd.Parameters.Add(new SqlParameter("@uip", uip));
+                //cmd.Parameters.Add(new SqlParameter("@country", country));
+                //cmd.Parameters.Add(new SqlParameter("@os", os));
+                //SqlDataReader dr = cmd.ExecuteReader();
+                //coo.Close();
+
+
 
                 //cm.CommandText = "insert into userinfo(ip,city,os,name,time) values (@uip,@country,@os,'二维码',getdate())";
                 //cm.Parameters.Add(new SqlParameter("@uip", uip));
@@ -336,8 +338,7 @@ namespace tissot
 
 
             }
-        }
-        
+ 
 
         
 
