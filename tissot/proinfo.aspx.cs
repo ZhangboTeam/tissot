@@ -134,7 +134,7 @@ namespace tissot
                     os = "计算机";
                 }
 
-                string connstr = "server=WANGJUN-PC;uid=sa;pwd=123456;database=tissotmsgs";
+                string connstr = "120.26.56.165;uid=sa;pwd=123456;database=tissotmsgs";
                 SqlConnection coo = new SqlConnection(connstr);
                 coo.Open();
                 SqlCommand cmd = new SqlCommand();
