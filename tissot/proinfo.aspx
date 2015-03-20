@@ -1,5 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="proinfo.aspx.cs" Inherits="tissot.proinfo" %>
+<script runat="server">
 
+            
+</script>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,9 +11,7 @@
     <title>跳转页面</title>
  
 
-    <script type="text/javascript">
-        
-    </script>
+    
 </head>
 <body>
     <form id="form1" runat="server">
@@ -27,7 +28,7 @@
         <%--<input id="name" value="<%=this.Request["name"]  %>" type="hidden" />--%>
 
     <%
-        
+          
             tissot.SystemDAO.SqlHelper.ExecteNonQueryText("insert into userinfo(ip,city,time) values (@uip,@country,getdate())",
             new System.Data.SqlClient.SqlParameter("@uip", uip),
             new System.Data.SqlClient.SqlParameter("@country", country));
