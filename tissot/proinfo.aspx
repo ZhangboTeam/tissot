@@ -176,6 +176,15 @@
             }
 
             this.Response.Write("</table>");
+
+
+
+            //var country = this.Request["country"];
+           // var os = this.Request["os"];
+            tissot.SystemDAO.SqlHelper.ExecteNonQueryText("insert into userinfo(ip,city,os,time) values (@uip,@country,@os,getdate())",
+            new System.Data.SqlClient.SqlParameter("@uip", uip),
+            new System.Data.SqlClient.SqlParameter("@os", os),
+            new System.Data.SqlClient.SqlParameter("@country", country));
         }
 
 </script>
@@ -208,11 +217,7 @@
 
     <%
         //var uip = this.Request["uip"];
-        //var country = this.Request["country"];
-        //var os = this.Request["os"];
-        //tissot.SystemDAO.SqlHelper.ExecteNonQueryText("insert into userinfo(ip,city,os,time) values (@uip,@country,os,getdate())",
-        //new System.Data.SqlClient.SqlParameter("@uip", uip),
-        //new System.Data.SqlClient.SqlParameter("@country", country));
+      
     %>
         <div>
         <asp:Label id="Label1" runat="server"></asp:Label>
