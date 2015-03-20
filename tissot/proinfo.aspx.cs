@@ -21,13 +21,13 @@ namespace tissot
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string conns = @"server=120.26.56.165\sqlexpress;uid=sa;pwd=123456;database=tissotmsgs";
-            SqlConnection co = new SqlConnection(conns);
-            co.Open();
-            SqlCommand cm = new SqlCommand();
-            cm.Connection = co;
-            cm.CommandText = "select url from uurl where name='二维码'";
-            SqlDataReader fd = cm.ExecuteReader();
+            //string conns = @"server=120.26.56.165\sqlexpress;uid=sa;pwd=123456;database=tissotmsgs";
+            //SqlConnection co = new SqlConnection(conns);
+            //co.Open();
+            //SqlCommand cm = new SqlCommand();
+            //cm.Connection = co;
+            //cm.CommandText = "select url from uurl where name='二维码'";
+            //SqlDataReader fd = cm.ExecuteReader();
             //if (fd.Read())
             //{
             //SqlDataReader urls = cm.ExecuteReader();
@@ -78,74 +78,81 @@ namespace tissot
             //Label2.Text = sql1;
             //Label1.Text = sql2;
             //conn.Close();
-            string url = "http://www.ip138.com/ips8.asp";
-            string regStr = "(?<=<td\\s*align=\\\"center\\\">)[^<]*?(?=<br/><br/></td>)";
-            //IP正则 
-            string ipRegStr = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
-            //IP地址 
-            string uip = string.Empty;
-            //国家 
-            string country = string.Empty;
-            //省市 
-            string adr = string.Empty;
-            //得到网页源码 
-            string html = GetHtml(url);
-            Regex reg = new Regex(regStr, RegexOptions.None);
-            Match ma = reg.Match(html);
-            html = ma.Value;
-            Regex ipReg = new Regex(ipRegStr, RegexOptions.None);
-            ma = ipReg.Match(html);
-            //得到IP 
-            uip = ma.Value;
-            int index = html.LastIndexOf("：") + 1;
-            //得到国家 
-            country = html.Substring(index);
-            adr = GetAdrByIp(uip);
-            Address.Text = "IP：" + uip + " 国家：" + "中国 " + " 省市：" + country;
-            lo.Text = uip;
 
-            string os = string.Empty;
-            string agent = HttpContext.Current.Request.UserAgent;
-            string[] keywords = { "Android", "iPhone", "iPod", "iPad", "Windows Phone", "MQQBrowser" };
-            //排除 Windows 桌面系统            
-            if (!agent.Contains("Windows NT") || (agent.Contains("Windows NT") && agent.Contains("compatible; MSIE 9.0;")))
-            {
-                //排除 苹果桌面系统 
 
-                if (!agent.Contains("Windows NT") && !agent.Contains("Macintosh"))
-                {
-                    foreach (string item in keywords)
-                    {
-                        if (agent.Contains(item))
-                        {
-                            STos.Text = item;
-                            os = "android系统";
-                        }
-                    }
-                }
-                else
-                {
-                    os = "苹果系统";
-                }
+            //string url = "http://www.ip138.com/ips8.asp";
+            //string regStr = "(?<=<td\\s*align=\\\"center\\\">)[^<]*?(?=<br/><br/></td>)";
+            ////IP正则 
+            //string ipRegStr = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
+            ////IP地址 
+            //string uip = string.Empty;
+            ////国家 
+            //string country = string.Empty;
+            ////省市 
+            //string adr = string.Empty;
+            ////得到网页源码 
+            //string html = GetHtml(url);
+            //Regex reg = new Regex(regStr, RegexOptions.None);
+            //Match ma = reg.Match(html);
+            //html = ma.Value;
+            //Regex ipReg = new Regex(ipRegStr, RegexOptions.None);
+            //ma = ipReg.Match(html);
+            ////得到IP 
+            //uip = ma.Value;
+            //int index = html.LastIndexOf("：") + 1;
+            ////得到国家 
+            //country = html.Substring(index);
+            //adr = GetAdrByIp(uip);
+            //Address.Text = "IP：" + uip + " 国家：" + "中国 " + " 省市：" + country;
+            //lo.Text = uip;
 
-            }
-            else
-            {
-                os = "计算机";
-            }
 
-            string connstr = "120.26.56.165\sqlexpress;uid=sa;pwd=123456;database=tissotmsgs";
-            SqlConnection coo = new SqlConnection(connstr);
-            coo.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = coo;
-            //cmd.CommandText = "insert into userinfo(ip,city,os,name)values('uip','country','ios','二维码')";
-            cmd.CommandText = "insert into userinfo(ip,city,os,name,time) values (@uip,@country,@os,'二维码',getdate())";
-            cmd.Parameters.Add(new SqlParameter("@uip", uip));
-            cmd.Parameters.Add(new SqlParameter("@country", country));
-            cmd.Parameters.Add(new SqlParameter("@os", os));
+
+            //string os = string.Empty;
+            //string agent = HttpContext.Current.Request.UserAgent;
+            //string[] keywords = { "Android", "iPhone", "iPod", "iPad", "Windows Phone", "MQQBrowser" };
+            ////排除 Windows 桌面系统            
+            //if (!agent.Contains("Windows NT") || (agent.Contains("Windows NT") && agent.Contains("compatible; MSIE 9.0;")))
+            //{
+            //    //排除 苹果桌面系统 
+
+            //    if (!agent.Contains("Windows NT") && !agent.Contains("Macintosh"))
+            //    {
+            //        foreach (string item in keywords)
+            //        {
+            //            if (agent.Contains(item))
+            //            {
+            //                STos.Text = item;
+            //                os = "android系统";
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        os = "苹果系统";
+            //    }
+
+            //}
+            //else
+            //{
+            //    os = "计算机";
+            //}
+
+
+
+
+            //string connstr = "120.26.56.165\sqlexpress;uid=sa;pwd=123456;database=tissotmsgs";
+            //SqlConnection coo = new SqlConnection(connstr);
+            //coo.Open();
+            //SqlCommand cmd = new SqlCommand();
+            //cmd.Connection = coo;
+            ////cmd.CommandText = "insert into userinfo(ip,city,os,name)values('uip','country','ios','二维码')";
+            //cmd.CommandText = "insert into userinfo(ip,city,os,name,time) values (@uip,@country,@os,'二维码',getdate())";
+            //cmd.Parameters.Add(new SqlParameter("@uip", uip));
+            //cmd.Parameters.Add(new SqlParameter("@country", country));
+            //cmd.Parameters.Add(new SqlParameter("@os", os));
             //SqlDataReader dr = cmd.ExecuteReader();
-            coo.Close();
+            //coo.Close();
 
 
 
@@ -153,7 +160,7 @@ namespace tissot
             //cm.Parameters.Add(new SqlParameter("@uip", uip));
             //cm.Parameters.Add(new SqlParameter("@country", country));
             //cm.Parameters.Add(new SqlParameter("@os", os));
-            
+
             //lk.Text = dr.ToString();
             //co.Close();
             //Response.Redirect("#");
@@ -349,32 +356,32 @@ namespace tissot
 
 
 
-        public string GetIpDetails()
-        {
-            string url = "http://www.ip138.com/ips8.asp";
-            string regStr = "(?<=<td\\s*align=\\\"center\\\">)[^<]*?(?=<br/><br/></td>)";
-            //IP正则 
-            string ipRegStr = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
-            //IP地址 
-            string ip = string.Empty;
-            //国家 
-            string country = string.Empty;
-            //省市 
-            string adr = string.Empty;
-            //得到网页源码 
-            string html = GetHtml(url);
-            Regex reg = new Regex(regStr, RegexOptions.None);
-            Match ma = reg.Match(html); html = ma.Value;
-            Regex ipReg = new Regex(ipRegStr, RegexOptions.None);
-            ma = ipReg.Match(html);
-            //得到IP 
-            ip = ma.Value;
-            int index = html.LastIndexOf("：") + 1;
-            //得到国家 
-            country = html.Substring(index);
-            adr = GetAdrByIp(ip);
-            return "IP：" + ip + " 国家：" + country + " 省市：" + adr;
-        }
+        //public string GetIpDetails()
+        //{
+        //    string url = "http://www.ip138.com/ips8.asp";
+        //    string regStr = "(?<=<td\\s*align=\\\"center\\\">)[^<]*?(?=<br/><br/></td>)";
+        //    //IP正则 
+        //    string ipRegStr = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
+        //    //IP地址 
+        //    string ip = string.Empty;
+        //    //国家 
+        //    string country = string.Empty;
+        //    //省市 
+        //    string adr = string.Empty;
+        //    //得到网页源码 
+        //    string html = GetHtml(url);
+        //    Regex reg = new Regex(regStr, RegexOptions.None);
+        //    Match ma = reg.Match(html); html = ma.Value;
+        //    Regex ipReg = new Regex(ipRegStr, RegexOptions.None);
+        //    ma = ipReg.Match(html);
+        //    //得到IP 
+        //    ip = ma.Value;
+        //    int index = html.LastIndexOf("：") + 1;
+        //    //得到国家 
+        //    country = html.Substring(index);
+        //    adr = GetAdrByIp(ip);
+        //    return "IP：" + ip + " 国家：" + country + " 省市：" + adr;
+        //}
 
 
 
@@ -419,7 +426,7 @@ namespace tissot
 
 
         //获取系统名称
-        private string GetOSNameByUserAgent(string userAgent)
+        public string GetOSNameByUserAgent(string userAgent)
         {
             string osVersion = "未知";
 
