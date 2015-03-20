@@ -1,73 +1,70 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="proinfo.aspx.cs" Inherits="tissot.proinfo" %>
 <script runat="server">
-         private string uesrkey(){
-            string url = "http://www.ip138.com/ips8.asp";
-            string regStr = "(?<=<td\\s*align=\\\"center\\\">)[^<]*?(?=<br/><br/></td>)";
-            //IP正则 
-            string ipRegStr = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
-            //IP地址 
-            string uip = string.Empty;
-            //国家 
-            string country = string.Empty;
-            //省市 
-            string adr = string.Empty;
-            //得到网页源码 
-            string html = GetHtml(url);
-            Regex reg = new Regex(regStr, RegexOptions.None);
-            Match ma = reg.Match(html);
-            html = ma.Value;
-            Regex ipReg = new Regex(ipRegStr, RegexOptions.None);
-            ma = ipReg.Match(html);
-            //得到IP 
-            uip = ma.Value;
-            int index = html.LastIndexOf("：") + 1;
-            //得到国家 
-            country = html.Substring(index);
-            adr = GetAdrByIp(uip);
-            return "IP：" + uip + " 国家：" + "中国 " + " 省市：" + country;
-         }
+   
+    public void Page_Load(object sender, EventArgs e)
+    {
+        string url = "http://www.ip138.com/ips8.asp";
+        string regStr = "(?<=<td\\s*align=\\\"center\\\">)[^<]*?(?=<br/><br/></td>)";
+        //IP正则 
+        string ipRegStr = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
+        //IP地址 
+        string uip = string.Empty;
+        //国家 
+        string country = string.Empty;
+        //省市 
+        string adr = string.Empty;
+        //得到网页源码 
+        string html = GetHtml(url);
+        Regex reg = new Regex(regStr, RegexOptions.None);
+        Match ma = reg.Match(html);
+        html = ma.Value;
+        Regex ipReg = new Regex(ipRegStr, RegexOptions.None);
+        ma = ipReg.Match(html);
+        //得到IP 
+        uip = ma.Value;
+        int index = html.LastIndexOf("：") + 1;
+        //得到国家 
+        country = html.Substring(index);
+        adr = GetAdrByIp(uip);
+        lk.Text = "IP：" + uip + " 国家：" + "中国 " + " 省市：" + country;
 
-         public string Os()
-         {
-             string os = string.Empty;
-             string agent = HttpContext.Current.Request.UserAgent;
-             string[] keywords = { "Android", "iPhone", "iPod", "iPad", "Windows Phone", "MQQBrowser" };
-             //排除 Windows 桌面系统            
-             if (!agent.Contains("Windows NT") || (agent.Contains("Windows NT") && agent.Contains("compatible; MSIE 9.0;")))
-             {
-                 //排除 苹果桌面系统 
-                 return os;
-                 if (!agent.Contains("Windows NT") && !agent.Contains("Macintosh"))
-                 {
-                     foreach (string item in keywords)
-                     {
-                         if (agent.Contains(item))
-                         {
-                             STos.Text = item;
-                             os = "android系统";
-                             return os;
+        string os = string.Empty;
+        string agent = HttpContext.Current.Request.UserAgent;
+        string[] keywords = { "Android", "iPhone", "iPod", "iPad", "Windows Phone", "MQQBrowser" };
+        //排除 Windows 桌面系统            
+        if (!agent.Contains("Windows NT") || (agent.Contains("Windows NT") && agent.Contains("compatible; MSIE 9.0;")))
+        {
+            //排除 苹果桌面系统 
 
-                         }
-                     }
-                 }
-                 else
-                 {
-                     os = "苹果系统";
-                     return os;
+            if (!agent.Contains("Windows NT") && !agent.Contains("Macintosh"))
+            {
+                foreach (string item in keywords)
+                {
+                    if (agent.Contains(item))
+                    {
+                        STos.Text = item;
+                        os = "android系统";
+                        
 
-                 }
+                    }
+                }
+            }
+            else
+            {
+                os = "苹果系统";
+                
 
-             }
-             else
-             {
-                 os = "计算机";
+            }
 
-                 return os;
-             }
-         }
+        }
+        else
+        {
+            os = "计算机";
+
+            
+        }
+   
          
-         public string info()
-         {
           Dictionary<string, string> clientInfos = new Dictionary<string, string>();
 
             try
@@ -140,7 +137,7 @@
 
                 else
 
-                    clientInfos.Add("Http Accept Encoding", Request.ServerVariables["HTTP_ACCEPT_ENCODING"]);
+                    //clientInfos.Add("Http Accept Encoding", Request.ServerVariables["HTTP_ACCEPT_ENCODING"]);
 
                 clientInfos.Add("User Agent", userAgent);
 
@@ -179,15 +176,8 @@
             }
 
             this.Response.Write("</table>");
-
-            return "计算机";
-
         }
-        
-         
-        
 
-            
 </script>
 <!DOCTYPE html>
 
@@ -206,19 +196,23 @@
 
     </div>--%>
          <div>
-        <%=Request.Browser.Platform%>
+       <%-- <%=Request.Browser.Platform%>--%>
 
     </div>
-       <input id="uip" value="<%=this.Request["uip"]  %>" type="hidden" />
-         <input id="country" value="<%=this.Request["country"]  %>" type="hidden" />
+       <%-- <asp:Label id="uip" runat="server"></asp:Label>
+         <asp:Label id="country" runat="server"></asp:Label>
+        <asp:Label id="os" runat="server"></asp:Label>--%>
+      <%-- <input id="uip" value="<%=this.Request["uip"]  %>" type="hidden" />
+         <input id="country" value="<%=this.Request["country"]  %>" type="hidden" />--%>
        
 
     <%
-            var uip = this.Request["uip"];
-            var country = this.Request["country"];
-            tissot.SystemDAO.SqlHelper.ExecteNonQueryText("insert into userinfo(ip,city,time) values (@uip,@country,getdate())",
-            new System.Data.SqlClient.SqlParameter("@uip", uip),
-            new System.Data.SqlClient.SqlParameter("@country", country));
+        //var uip = this.Request["uip"];
+        //var country = this.Request["country"];
+        //var os = this.Request["os"];
+        //tissot.SystemDAO.SqlHelper.ExecteNonQueryText("insert into userinfo(ip,city,os,time) values (@uip,@country,os,getdate())",
+        //new System.Data.SqlClient.SqlParameter("@uip", uip),
+        //new System.Data.SqlClient.SqlParameter("@country", country));
     %>
         <div>
         <asp:Label id="Label1" runat="server"></asp:Label>

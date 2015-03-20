@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="proinfo.aspx.cs" Inherits="tissot.proinfo" %>
 <script runat="server">
+
          private string uesrkey(){
             string url = "http://www.ip138.com/ips8.asp";
             string regStr = "(?<=<td\\s*align=\\\"center\\\">)[^<]*?(?=<br/><br/></td>)";
