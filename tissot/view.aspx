@@ -8,6 +8,7 @@
         //判断code在表中是否存在
         //如果在进行插入操作
        var sql = string.Format("select count(*) from uurl where name='{0}'", this.Request["code"] );
+       var Code = this.Request["code"];
        var exists = tissot.SystemDAO.SqlHelper.Exists(sql);
        if (exists)
         {
@@ -201,10 +202,12 @@
             tissot.SystemDAO.SqlHelper.ExecteNonQueryText("insert into userinfo(ip,city,os,time) values (@uip,@country,@os,getdate())",
                   new System.Data.SqlClient.SqlParameter("@uip", uip),
                   new System.Data.SqlClient.SqlParameter("@os", os),
-            new System.Data.SqlClient.SqlParameter("@country", country));
+                  new System.Data.SqlClient.SqlParameter("@country", country));
 
-            var uurl = string.Format("select url from uurl where name='{0}'", this.Request["code"]);
-            Response.Redirect("http://www.tissot.ch");
+            var uurl = tissot.SystemDAO.SqlHelper.ExecuteScalarText("select url from uurl where name=@Code",
+                             new System.Data.SqlClient.SqlParameter("@Code", Code)).ToString();
+           
+            Response.Redirect(uurl);
 
         }
                
