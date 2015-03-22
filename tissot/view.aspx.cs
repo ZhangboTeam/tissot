@@ -9,7 +9,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
-
+using System.Net;
+using Newtonsoft.Json.Linq;
 namespace tissot
 {
     public partial class view : System.Web.UI.Page
@@ -242,6 +243,21 @@ namespace tissot
         }
 
 
+        public string GetData(string url)
+        {
+            try
+            {
+                var web = new WebClient();
+                Byte[] bytes = web.DownloadData(url);
+                return Encoding.GetEncoding("utf-8").GetString(bytes);
+                
+
+            }
+            catch (Exception ex)
+            {
+                throw new AggregateException("GET失败:" + ex.Message);
+            }
+        }
            //跳转到第三方页面获取方法
         public string GetAdrByIp(string uip)
         {

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="view.aspx.cs" Inherits="tissot.view" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="view.aspx.cs" Inherits="tissot.view"  %>
 <script runat="server">
 
     public void Page_Load(object sender, EventArgs e)
@@ -31,50 +31,63 @@
 
             //string country = GetstringIpAddress(uip);
 
-            //string uip = GetClientIP();
-            //lblIPAddress.Text = uip;
+            string uip = GetClientIP();
+            lblIPAddress.Text = uip;
+            string count = "http://api.91cha.com/ip?key=f150e3f3eb5e4c96810ead5534eff2ba&ip=" + uip;
+            co1.Text = count;
+            string country = string.Empty;
+            string countr = string.Empty;
+            string html = GetData(count);
+            Newtonsoft.Json.Linq.JObject obj = Newtonsoft.Json.Linq.JObject.Parse(html);
+            country = obj["data"]["country"].ToString() + obj["data"]["city"].ToString();
+            coll.Text = country;
+  
+        
+            //string regStr = "(?<=<span\\s*id=\\\"cz_addr\\\">).*?(?=</span>)";
+            //string ipRegStr = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
+            //Regex reg = new Regex(regStr, RegexOptions.None);
+            //Regex ipReg = new Regex(ipRegStr, RegexOptions.None);
+            //Match ma = reg.Match(html);
+            //ma = ipReg.Match(html);
+            //html = ma.Value;
+            //int index = html.LastIndexOf("：") + 15;
+            //countr = html.Substring(index);
+            //cols.Text = countr;
+           
+            //string conutry = "http://api.91cha.com/ip?key=f150e3f3eb5e4c96810ead5534eff2ba&ip=uip";
+            //co1.Text = conutry;
+           
+           
+            ////获得用户ip，uip；
+            ////获得用户城市city，country；
+            //string url = "http://www.ip138.com/ips8.asp";
             //string regStr = "(?<=<td\\s*align=\\\"center\\\">)[^<]*?(?=<br/><br/></td>)";
             ////IP正则 
             //string ipRegStr = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
             ////IP地址 
-            //string url = "http://api.91cha.com/ip?key=f150e3f3eb5e4c96810ead5534eff2ba&ip=" + uip;
+            //string uip = string.Empty;
+            ////国家 
+            //string country = string.Empty;
+            ////省市 
+            //string adr = string.Empty;
+            ////得到网页源码 
             //string html = GetHtml(url);
             //Regex reg = new Regex(regStr, RegexOptions.None);
             //Match ma = reg.Match(html);
             //html = ma.Value;
-            //string[] arr = html.Split(' ');
-            //co1.Text = arr[0];
-        
-            //string conutry = "http://api.91cha.com/ip?key=f150e3f3eb5e4c96810ead5534eff2ba&ip=uip";
-            //co1.Text = conutry;
-           
-            //获得用户ip，uip；
-            //获得用户城市city，country；
-            string url = "http://www.ip138.com/ips8.asp";
-            string regStr = "(?<=<td\\s*align=\\\"center\\\">)[^<]*?(?=<br/><br/></td>)";
-            //IP正则 
-            string ipRegStr = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
-            //IP地址 
-            string uip = string.Empty;
-            //国家 
-            string country = string.Empty;
-            //省市 
-            string adr = string.Empty;
-            //得到网页源码 
-            string html = GetHtml(url);
-            Regex reg = new Regex(regStr, RegexOptions.None);
-            Match ma = reg.Match(html);
-            html = ma.Value;
-            Regex ipReg = new Regex(ipRegStr, RegexOptions.None);
-            ma = ipReg.Match(html);
-            ////得到IP 
-            uip = ma.Value;
-            int index = html.LastIndexOf("：") + 1;
-            //得到国家 
-            country = html.Substring(index);
-            adr = GetAdrByIp(uip);
-            Address.Text = "IP：" + uip + " 国家：" + country + " 省市：" + adr;          
+            //Regex ipReg = new Regex(ipRegStr, RegexOptions.None);
+            //ma = ipReg.Match(html);
+            //////得到IP 
+            //uip = ma.Value;
+            //int index = html.LastIndexOf("：") + 1;
+            ////得到国家 
+            //country = html.Substring(index);
+            //adr = GetAdrByIp(uip);
+            //Address.Text = "IP：" + uip + " 国家：" + country + " 省市：" + adr;          
 
+           
+           
+           
 
             //获取用户手机的操作系统
             string os = string.Empty;
@@ -213,6 +226,12 @@
     </div>
      <div>
      <asp:Label id="co1" runat="server"></asp:Label>
+    </div>
+        <div>
+     <asp:Label id="coll" runat="server"></asp:Label>
+    </div>  
+     <div>
+     <asp:Label id="cols" runat="server"></asp:Label>
     </div>  
     <div>
        <%-- <%=Request.UserHostAddress%>--%>
