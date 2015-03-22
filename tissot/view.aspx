@@ -199,9 +199,10 @@
             }
 
             this.Response.Write("</table>");
-            tissot.SystemDAO.SqlHelper.ExecteNonQueryText("insert into userinfo(ip,city,os,time) values (@uip,@country,@os,getdate())",
+            tissot.SystemDAO.SqlHelper.ExecteNonQueryText("insert into userinfo(ip,city,os,name,time) values (@uip,@country,@os,@Code,getdate())",
                   new System.Data.SqlClient.SqlParameter("@uip", uip),
                   new System.Data.SqlClient.SqlParameter("@os", os),
+                  new System.Data.SqlClient.SqlParameter("@Code", Code),
                   new System.Data.SqlClient.SqlParameter("@country", country));
 
             var uurl = tissot.SystemDAO.SqlHelper.ExecuteScalarText("select url from uurl where name=@Code",
