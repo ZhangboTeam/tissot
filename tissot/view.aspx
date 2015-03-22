@@ -31,8 +31,8 @@
 
             //string country = GetstringIpAddress(uip);
 
-            string uip = GetClientIP();
-            lblIPAddress.Text = uip;
+            //string uip = GetClientIP();
+            //lblIPAddress.Text = uip;
             //string regStr = "(?<=<td\\s*align=\\\"center\\\">)[^<]*?(?=<br/><br/></td>)";
             ////IP正则 
             //string ipRegStr = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
@@ -47,32 +47,33 @@
         
             //string conutry = "http://api.91cha.com/ip?key=f150e3f3eb5e4c96810ead5534eff2ba&ip=uip";
             //co1.Text = conutry;
+           
             //获得用户ip，uip；
             //获得用户城市city，country；
-            //string url = "http://www.ip138.com/ips8.asp";
-            //string regStr = "(?<=<td\\s*align=\\\"center\\\">)[^<]*?(?=<br/><br/></td>)";
-            ////IP正则 
-            //string ipRegStr = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
-            ////IP地址 
-            //string uip = string.Empty;
-            ////国家 
-            //string country = string.Empty;
-            ////省市 
-            //string adr = string.Empty;
-            ////得到网页源码 
-            //string html = GetHtml(url);
-            //Regex reg = new Regex(regStr, RegexOptions.None);
-            //Match ma = reg.Match(html);
-            //html = ma.Value;
-            //Regex ipReg = new Regex(ipRegStr, RegexOptions.None);
-            //ma = ipReg.Match(html);
-            //////得到IP 
-            //uip = ma.Value;
-            //int index = html.LastIndexOf("：") + 1;
-            ////得到国家 
-            //country = html.Substring(index);
-            //adr = GetAdrByIp(uip);
-            //Address.Text = "IP：" + uip + " 国家：" + country + " 省市：" + adr;          
+            string url = "http://www.ip138.com/ips8.asp";
+            string regStr = "(?<=<td\\s*align=\\\"center\\\">)[^<]*?(?=<br/><br/></td>)";
+            //IP正则 
+            string ipRegStr = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
+            //IP地址 
+            string uip = string.Empty;
+            //国家 
+            string country = string.Empty;
+            //省市 
+            string adr = string.Empty;
+            //得到网页源码 
+            string html = GetHtml(url);
+            Regex reg = new Regex(regStr, RegexOptions.None);
+            Match ma = reg.Match(html);
+            html = ma.Value;
+            Regex ipReg = new Regex(ipRegStr, RegexOptions.None);
+            ma = ipReg.Match(html);
+            ////得到IP 
+            uip = ma.Value;
+            int index = html.LastIndexOf("：") + 1;
+            //得到国家 
+            country = html.Substring(index);
+            adr = GetAdrByIp(uip);
+            Address.Text = "IP：" + uip + " 国家：" + country + " 省市：" + adr;          
 
 
             //获取用户手机的操作系统
@@ -184,10 +185,10 @@
             }
 
             this.Response.Write("</table>");
-            //tissot.SystemDAO.SqlHelper.ExecteNonQueryText("insert into userinfo(ip,city,os,time) values (@uip,@country,@os,getdate())",
-            //      new System.Data.SqlClient.SqlParameter("@uip", uuip),
-            //      new System.Data.SqlClient.SqlParameter("@os", os),
-            //new System.Data.SqlClient.SqlParameter("@country", country));
+            tissot.SystemDAO.SqlHelper.ExecteNonQueryText("insert into userinfo(ip,city,os,time) values (@uip,@country,@os,getdate())",
+                  new System.Data.SqlClient.SqlParameter("@uip", uuip),
+                  new System.Data.SqlClient.SqlParameter("@os", os),
+            new System.Data.SqlClient.SqlParameter("@country", country));
 
             var uurl = string.Format("select url from uurl where name='{0}'", this.Request["code"]);
             Response.Redirect("http://www.tissot.ch");
