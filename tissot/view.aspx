@@ -32,15 +32,15 @@
             //string country = GetstringIpAddress(uip);
 
             string uip = GetClientIP();
-            lblIPAddress.Text = uip;
+            //lblIPAddress.Text = uip;
             string count = "http://api.91cha.com/ip?key=f150e3f3eb5e4c96810ead5534eff2ba&ip=" + uip;
-            co1.Text = count;
+            //co1.Text = count;
             string country = string.Empty;
             string countr = string.Empty;
             string html = GetData(count);
             Newtonsoft.Json.Linq.JObject obj = Newtonsoft.Json.Linq.JObject.Parse(html);
             country = obj["data"]["country"].ToString() + obj["data"]["city"].ToString();
-            coll.Text = country;
+            //coll.Text = country;
   
         
             //string regStr = "(?<=<span\\s*id=\\\"cz_addr\\\">).*?(?=</span>)";
@@ -126,7 +126,7 @@
             //获取用户浏览器
             //采用网上获取的方法
             //采用字典的存储方式
-            string uuip = Request.UserHostAddress;
+            //string uuip = Request.UserHostAddress;
             Dictionary<string, string> clientInfos = new Dictionary<string, string>();
             try
             {
@@ -138,7 +138,7 @@
                 else
                     clientInfos.Add("CPU 类型", Request.ServerVariables["HTTP_UA_CPU"]);
                 clientInfos.Add("操作系统", this.GetOSNameByUserAgent(userAgent));
-                clientInfos.Add("IP 地址", uuip);
+                //clientInfos.Add("IP 地址", uuip);
                 if (Request.Browser.ClrVersion == null)
                     clientInfos.Add(".NET CLR 版本", "不支持");
                 else
@@ -199,7 +199,7 @@
 
             this.Response.Write("</table>");
             tissot.SystemDAO.SqlHelper.ExecteNonQueryText("insert into userinfo(ip,city,os,time) values (@uip,@country,@os,getdate())",
-                  new System.Data.SqlClient.SqlParameter("@uip", uuip),
+                  new System.Data.SqlClient.SqlParameter("@uip", uip),
                   new System.Data.SqlClient.SqlParameter("@os", os),
             new System.Data.SqlClient.SqlParameter("@country", country));
 
