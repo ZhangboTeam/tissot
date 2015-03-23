@@ -110,7 +110,7 @@
                         }
                     }
                 }
-                
+    
             }
                  
             
@@ -204,7 +204,6 @@
                   new System.Data.SqlClient.SqlParameter("@os", os),
                   new System.Data.SqlClient.SqlParameter("@Code", Code),
                   new System.Data.SqlClient.SqlParameter("@country", country));
-
             var uurl = tissot.SystemDAO.SqlHelper.ExecuteScalarText("select url from uurl where name=@Code",
                              new System.Data.SqlClient.SqlParameter("@Code", Code)).ToString();
            
