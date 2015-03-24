@@ -38,35 +38,35 @@
      </AlternatingItemTemplate>
      <FooterTemplate><hr /></FooterTemplate>
      </asp:Repeater>--%>
-     <div>
+     <%--<div>
 
         <asp:Repeater ID="Repeater1" runat="server" 
              onitemcommand="Repeater1_ItemCommand">
          <HeaderTemplate><table>
          <tr ><td style="width:100px">编号</td><td style="width:100px">姓名</td>
          <%--<td style="width:100px">图片</td><td>&nbsp;</td><td>&nbsp;</td></tr>--%>
-         </HeaderTemplate>
+         <%--</HeaderTemplate>
          <ItemTemplate>
          <tr>
          <td><%# Eval("sid") %></td><td><%# Eval("sname") %></td>
          <%--<td><img width="60px" height="60px" src='<%# "images/" + Eval("photo") %>' /></td>--%>
-         <td><asp:LinkButton ID="btnDelete" runat="server" Text="删除" CommandName='Delete' CommandArgument='<%# Eval("sid") %>'></asp:LinkButton></td>
+         <%--<td><asp:LinkButton ID="btnDelete" runat="server" Text="删除" CommandName='Delete' CommandArgument='<%# Eval("sid") %>'></asp:LinkButton></td>
          <td><asp:LinkButton ID="btnEdit" runat="server" Text="编辑" CommandName='Edit' CommandArgument='<%# Eval("sid") %>'></asp:LinkButton></td>
          </tr>
          </ItemTemplate>
          <AlternatingItemTemplate>
-         <tr style="background-color:Green">
-         <td><%# Eval("sid") %></td><td><%# Eval("sname") %></td>
+         <tr style="background-color:Green">--%>
+         <%--<td><%# Eval("sid") %></td><td><%# Eval("sname") %></td>--%>
          <%--<td><img width="60px" height="60px" src='<%# "images/" + Eval("photo") %>' /></td>--%>
          <<%--td><asp:LinkButton ID="btnDelete" runat="server" Text="删除" CommandName='Delete' CommandArgument='<%# Eval("sid") %>'></asp:LinkButton></td>
          <td><asp:LinkButton ID="btnEdit" runat="server" Text="编辑" CommandName='Edit' CommandArgument='<%# Eval("sid") %>'></asp:LinkButton></td>--%>
-         </tr>
+         <%--</tr>
          </AlternatingItemTemplate>
          <SeparatorTemplate>
          <tr><td colspan="5"><hr /></td></tr>
          </SeparatorTemplate>
          <FooterTemplate></table></FooterTemplate>
-         </asp:Repeater>
+         </asp:Repeater>--%>
 
     
     </div>

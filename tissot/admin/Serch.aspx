@@ -80,17 +80,16 @@
         
 
 
-      <%--  <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [userinfo] WHERE ([name] LIKE '%' + @name + '%')">
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [userinfo] WHERE ([name] LIKE '%' + @name + '%')">
             <SelectParameters>
                 <asp:FormParameter DefaultValue="00" FormField="Code" Name="name" Type="String" />
             </SelectParameters>
-        </asp:SqlDataSource>--%>
+        </asp:SqlDataSource>
          <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [userinfo] WHERE ([city] LIKE '%' + @name + '%')">
             <SelectParameters>
                 <asp:FormParameter DefaultValue="中国" FormField="City" Name="name" Type="String" />
             </SelectParameters>
         </asp:SqlDataSource>
-
 
         <br />
         <br />
