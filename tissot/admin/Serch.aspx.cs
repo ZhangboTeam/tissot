@@ -20,7 +20,7 @@ namespace tissot
 
         //private void BindStudent()
         //{
-        //    string str = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+        //    string str = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
         //    using (SqlConnection sqlCnn = new SqlConnection(str))
         //    {
         //        using (SqlDataAdapter da = new SqlDataAdapter("select * from userinfo", sqlCnn))

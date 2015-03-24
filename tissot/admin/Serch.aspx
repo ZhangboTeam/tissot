@@ -29,6 +29,9 @@
             width: 671px;
         }
     </style>
+    <script>
+
+    </script>
 </head>
 <body style="height: 519px; width: 472px">
     <form id="form1" runat="server">
@@ -38,12 +41,13 @@
         
 
 
-        <input type="text" name="City"placeholder="城市" />
+        <input type="text" name="City&Code"placeholder="城市或者二维码编号" />
         <input type="submit" value="搜索" />
-        <input type="text"name="Code" placeholder="二维码编号" />
-        <input type="submit" value="搜索" />
+        <%--<input type="text"name="Code" placeholder="二维码编号" />
+        <input type="submit" value="搜索" />--%>
+
         <asp:Repeater ID="Repeater1" runat="server" 
-             onitemcommand="Repeater1_ItemCommand" DataSourceID="SqlDataSource2">
+             onitemcommand="Repeater1_ItemCommand" DataSourceID="SqlDataSource2" >
          <HeaderTemplate><table>
          <tr>
              <td style="width:100px">用户ip</td><td style="width:100px">城市</td>
@@ -85,9 +89,9 @@
                 <asp:FormParameter DefaultValue="00" FormField="Code" Name="name" Type="String" />
             </SelectParameters>
         </asp:SqlDataSource>
-         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [userinfo] WHERE ([city] LIKE '%' + @name + '%')">
+         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [userinfo] WHERE ([city] LIKE '%' + @name + '%')OR ([name] LIKE '%' + @name + '%')">
             <SelectParameters>
-                <asp:FormParameter DefaultValue="中国" FormField="City" Name="name" Type="String" />
+                <asp:FormParameter DefaultValue="中国" FormField="City&amp;Code" Name="name" Type="String" />
             </SelectParameters>
         </asp:SqlDataSource>
 
