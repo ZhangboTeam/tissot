@@ -43,7 +43,7 @@
         <input type="text"name="Code" placeholder="二维码编号" />
         <input type="submit" value="搜索" />
         <asp:Repeater ID="Repeater1" runat="server" 
-             onitemcommand="Repeater1_ItemCommand" DataSourceID="SqlDataSource1">
+             onitemcommand="Repeater1_ItemCommand" DataSourceID="SqlDataSource2">
          <HeaderTemplate><table>
          <tr>
              <td style="width:100px">用户ip</td><td style="width:100px">城市</td>
@@ -53,7 +53,7 @@
          <%--<td style="width:100px">图片</td><td>&nbsp;</td><td>&nbsp;</td></tr>--%>
          </HeaderTemplate>
          <ItemTemplate>
-         <tr>
+         <tr style="background-color:Green">
          <td><%# Eval("ip") %></td><td><%# Eval("city") %></td>
          <td><%# Eval("os") %></td><td><%# Eval("name") %></td>
          <td><%# Eval("time")%></td>
@@ -80,12 +80,16 @@
         
 
 
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [userinfo] WHERE ([name] LIKE '%' + @name + '%')">
+      <%--  <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [userinfo] WHERE ([name] LIKE '%' + @name + '%')">
             <SelectParameters>
                 <asp:FormParameter DefaultValue="00" FormField="Code" Name="name" Type="String" />
             </SelectParameters>
+        </asp:SqlDataSource>--%>
+         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [userinfo] WHERE ([city] LIKE '%' + @name + '%')">
+            <SelectParameters>
+                <asp:FormParameter DefaultValue="中国" FormField="City" Name="name" Type="String" />
+            </SelectParameters>
         </asp:SqlDataSource>
-        
 
 
         <br />

@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -11,7 +14,23 @@ namespace tissot
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+                BindStudent();
+        }
 
+        private void BindStudent()
+        {
+            string str = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            using (SqlConnection sqlCnn = new SqlConnection(str))
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter("select * from student", sqlCnn))
+                {
+                    DataSet ds = new DataSet();
+                    da.Fill(ds);
+                    this.Repeater1.DataSource = ds;
+                    this.Repeater1.DataBind();
+                }
+            }
         }
 
         protected void Repeater1_ItemCommand(object source, RepeaterCommandEventArgs e)

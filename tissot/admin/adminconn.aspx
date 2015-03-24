@@ -43,7 +43,7 @@
         <asp:Repeater ID="Repeater1" runat="server" 
              onitemcommand="Repeater1_ItemCommand">
          <HeaderTemplate><table>
-         <tr><td style="width:100px">编号</td><td style="width:100px">姓名</td>
+         <tr ><td style="width:100px">编号</td><td style="width:100px">姓名</td>
          <%--<td style="width:100px">图片</td><td>&nbsp;</td><td>&nbsp;</td></tr>--%>
          </HeaderTemplate>
          <ItemTemplate>
@@ -58,8 +58,8 @@
          <tr style="background-color:Green">
          <td><%# Eval("sid") %></td><td><%# Eval("sname") %></td>
          <%--<td><img width="60px" height="60px" src='<%# "images/" + Eval("photo") %>' /></td>--%>
-         <td><asp:LinkButton ID="btnDelete" runat="server" Text="删除" CommandName='Delete' CommandArgument='<%# Eval("sid") %>'></asp:LinkButton></td>
-         <td><asp:LinkButton ID="btnEdit" runat="server" Text="编辑" CommandName='Edit' CommandArgument='<%# Eval("sid") %>'></asp:LinkButton></td>
+         <<%--td><asp:LinkButton ID="btnDelete" runat="server" Text="删除" CommandName='Delete' CommandArgument='<%# Eval("sid") %>'></asp:LinkButton></td>
+         <td><asp:LinkButton ID="btnEdit" runat="server" Text="编辑" CommandName='Edit' CommandArgument='<%# Eval("sid") %>'></asp:LinkButton></td>--%>
          </tr>
          </AlternatingItemTemplate>
          <SeparatorTemplate>
