@@ -83,7 +83,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="admin\adminconn.aspx" />
+    <Content Include="admin\codeorcityserch.aspx" />
     <Content Include="bin\AspNetPager.dll" />
     <Content Include="bin\AspNetPager.XML" />
     <Content Include="Inserturl.aspx" />
@@ -102,19 +102,19 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="admin\adminconn.aspx.cs">
-      <DependentUpon>adminconn.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="admin\adminconn.aspx.designer.cs">
-      <DependentUpon>adminconn.aspx</DependentUpon>
-    </Compile>
     <Compile Include="admin\adminmanager.aspx.cs">
       <DependentUpon>adminmanager.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="admin\adminmanager.aspx.designer.cs">
       <DependentUpon>adminmanager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\codeorcityserch.aspx.cs">
+      <DependentUpon>codeorcityserch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\codeorcityserch.aspx.designer.cs">
+      <DependentUpon>codeorcityserch.aspx</DependentUpon>
     </Compile>
     <Compile Include="admin\MyHub1.cs" />
     <Compile Include="Inserturl.aspx.cs">

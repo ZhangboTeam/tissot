@@ -25,7 +25,7 @@ namespace tissot
         [WebMethod(EnableSession = true)]
         public bool Login(string adminname, string password)
         {
-            var ok = tissot.SystemDAO.SqlHelper.Exists("select count(1) from admin where adminname=@adminname and password= @Password",
+            var ok = SystemDAO.SqlHelper.Exists("select count(1) from admin where adminname=@adminname and password= @Password",
                 new System.Data.SqlClient.SqlParameter("@adminname", adminname),
                 new System.Data.SqlClient.SqlParameter("@Password", password));
             if (ok)

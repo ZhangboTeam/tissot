@@ -2,12 +2,14 @@
 <script runat="server" >
 
     private int Countall;
-    private int Countip;
+    private int Countsumname;
     private int Countcity;
     private int Countname;
     private int Countos;
     private int Counttime;
     public string page= "";
+    public string city = "";
+    public string Countmaxname;
     protected override void OnLoad(EventArgs e)
     {
          base.OnLoad(e);
@@ -23,13 +25,17 @@
     }
     private System.Data.SqlClient.SqlDataReader LoadData()
     {
-
+        var City = new System.Data.SqlClient.SqlParameter("@City", city == null ? "" : city);
         var dr = tissot.SystemDAO.SqlHelper.ExecuteReaderFromStoredProcedure("eusp_userinfo",
            new System.Data.SqlClient.SqlParameter("@startIndex", AspNetPager1.StartRecordIndex),
            new System.Data.SqlClient.SqlParameter("@endIndex", AspNetPager1.EndRecordIndex),
            new System.Data.SqlClient.SqlParameter("@City", "上海")
            );
         this.Countall = (int)tissot.SystemDAO.SqlHelper.ExecuteScalarText("select  isnull(count(*),0) from userinfo  where  city like '%" + this.Request["City"] + "%'");
+        this.Countname = (int)tissot.SystemDAO.SqlHelper.ExecuteScalarText("select  count(distinct([name] )) from userinfo  where city  like '%' + @City + '%' ", City);
+        this.Countmaxname = tissot.SystemDAO.SqlHelper.ExecuteScalarText("select  max([name] ) from userinfo  where city  like '%' + @City + '%' ", City).ToString();
+        //var countmaxname = new System.Data.SqlClient.SqlParameter("@Countmaxname", Countmaxname == null ? "" : Countmaxname);
+        this.Countsumname = (int)tissot.SystemDAO.SqlHelper.ExecuteScalarText("select  count([name] ) from userinfo  where city  like '%' + @City + '%' ", City);
         //var cn = new System.Data.SqlClient.SqlConnection(System.Web.Configuration.WebConfigurationManager.AppSettings["con"]);
         //var dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
         //this.Countall = (int)tissot.SystemDAO.SqlHelper.ExecuteScalarText("select  count(*) from userinfo where city like '%' + @city + '%'", city);
@@ -41,7 +47,7 @@
     }
     public override void DataBind()
     {
-        //this.Repeater1.DataSource = this.LoadData();
+        this.Repeater1.DataSource = this.LoadData();
         base.DataBind();
     }
 
@@ -66,8 +72,8 @@
     
 footer {  
     display: block;
-            height: 193px;
-            width: 258px;
+            height: 655px;
+            width: 281px;
         } 
 
 .post_message {
@@ -82,25 +88,15 @@ margin-right: 3%;
 padding: 5px 0;
 }
 
-        .auto-style4 {
-            display: block;
-            height: 319px;
-            width: 289px;
-        }
         .auto-style6 {
             text-align: right;
-            height: 807px;
-            width: 866px;
+            height: 758px;
+            width: 832px;
         }
         .auto-style7 {
             text-align: center;
         }
-        .auto-style8 {
-            display: block;
-            height: 138px;
-            width: 271px;
-        }
-    </style>
+        </style>
     <script>
 
     </script>
@@ -109,19 +105,19 @@ padding: 5px 0;
     <form id="form1" runat="server">
         <div class="auto-style6">
         <div class="auto-style3">
-        管理员管理<br />
+       <h2> 管理员管理</h2><br />
         </div>
             <div class="auto-style7">
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input  type="text" name="City"placeholder="城市或者二维码编号" style="width: 195px; margin-left: 0px" />
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input  type="text" id="City" name="City"placeholder="城市或者二维码编号" style="width: 195px; margin-left: 0px" />
         <input type="submit" value="搜索" />
         <%--<input type="text"name="CityCode" placeholder="二维码编号" />--%>
         <%--<input type="submit" value="搜索" />--%>
             </div>
            
 
-
+            <%--onitemcommand="Repeater1_ItemCommand" DataSourceID="SqlDataSource2"--%>
         <asp:Repeater ID="Repeater1" runat="server" 
-             onitemcommand="Repeater1_ItemCommand" DataSourceID="SqlDataSource2" >
+              >
          <HeaderTemplate>
              <table align="right">
          <tr>
@@ -156,11 +152,6 @@ padding: 5px 0;
          </SeparatorTemplate>
          <FooterTemplate></table></FooterTemplate>
          </asp:Repeater>
-             <%--<webdiyer:AspNetPager ID="AspNetPager1" runat="server" Width="100%" UrlPaging="true" ShowPageIndexBox="Always" PageIndexBoxType="DropDownList"  
-                    FirstPageText="【首页】"
-    LastPageText="【尾页】" NextPageText="【后页】"
-        PrevPageText="【前页】" NumericButtonTextFormatString="【{0}】"   TextAfterPageIndexBox="页" TextBeforePageIndexBox="转到第"  HorizontalAlign="right" PageSize="10" OnPageChanged="AspNetPager1_PageChanged" EnableTheming="true" CustomInfoHTML="Page  <font color='red'><b>%CurrentPageIndex%</b></font> of  %PageCount%  Order %StartRecordIndex%-%EndRecordIndex%">
-                </webdiyer:AspNetPager>--%>
         <%--<div class="auto-style4">
             <label>
             汇总：&nbsp;&nbsp;&nbsp;&nbsp; 有</label>
@@ -174,27 +165,33 @@ padding: 5px 0;
             <footer class="auto-style4">
                 <div class="auto-style4">
                 &nbsp;<div class="auto-style8">
+                        <label ><h2>
+                        汇总：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 有</h2></label>
                         <label>
-                        汇总：&nbsp;&nbsp;&nbsp;&nbsp; 有</label>
+                        <h2><%#Countall%>人扫码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 共扫</h2></label>
                         <label>
-                        <% %>人扫码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 共有</label>
+                        <h2><%#Countname%>种码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其中</h2></label>
                         <label>
-                        <% %>扫<% %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其中</label>
-                        <label>
-                        <% %>扫码人最多&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共有<% %>人</label>
+                       <h2><%#Countmaxname %>扫码人最多&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共有<%#Countsumname %>人</h2></label>
                     </div>
             </div>
         </footer>
    
 
-            <webdiyer:aspnetpager ID="AspNetPager1"  runat="server" Width="50%" UrlPaging="true" ShowPageIndexBox="Always" PageIndexBoxType="DropDownList"  
+            <%--<webdiyer:aspnetpager ID="AspNetPager1"  runat="server" Width="50%" UrlPaging="true" ShowPageIndexBox="Always" PageIndexBoxType="DropDownList"  
                     FirstPageText="【首页】"
     LastPageText="【尾页】" NextPageText="【后页】"
         PrevPageText="【前页】" NumericButtonTextFormatString="【{0}】"   TextAfterPageIndexBox="页" TextBeforePageIndexBox="转到第"  HorizontalAlign="right" PageSize="10" OnPageChanged="AspNetPager1_PageChanged" EnableTheming="true" CustomInfoHTML="Page  <font color='red'><b>%CurrentPageIndex%</b></font> of  %PageCount%  Order %StartRecordIndex%-%EndRecordIndex%">
-                </webdiyer:aspnetpager>
+                </webdiyer:aspnetpager>--%>
              <%--<Webdiyer:AspNetPager id="AspNetPager1" runat="server"align="right" HorizontalAlign="Right"  FirstPageText="<<" LastPageText=">>" PrevPageText="<" NextPageText=">" NumericButtonTextFormatString="-{0}-" Width="600px"
 
            ShowCustomInfoSection="Left" ShowBoxThreshold="2" PageSize="5"  InputBoxClass="text2" TextAfterInputBox="" OnPageChanging="AspNetPager1_PageChanging"  />--%>
+    
+             <webdiyer:AspNetPager ID="AspNetPager1" runat="server" Width="100%" UrlPaging="true" ShowPageIndexBox="Always" PageIndexBoxType="DropDownList"  
+                    FirstPageText="【首页】"
+    LastPageText="【尾页】" NextPageText="【后页】"
+        PrevPageText="【前页】" NumericButtonTextFormatString="【{0}】"   TextAfterPageIndexBox="页" TextBeforePageIndexBox="转到第"  HorizontalAlign="right" PageSize="10" OnPageChanged="AspNetPager1_PageChanged" EnableTheming="true" CustomInfoHTML="Page  <font color='red'><b>%CurrentPageIndex%</b></font> of  %PageCount%  Order %StartRecordIndex%-%EndRecordIndex%">
+                </webdiyer:AspNetPager>
     
             <br />
          <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [userinfo] WHERE ([city] LIKE '%' + @name + '%')OR ([name] LIKE '%' + @name + '%')">

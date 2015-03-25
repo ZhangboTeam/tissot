@@ -43,10 +43,10 @@ public void Page_Load(object sender, EventArgs e)
     
     </div>--%>
         <p class="auto-style1">
-            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+            <asp:TextBox ID="TextBox1" placeholder="插入的code" runat="server"></asp:TextBox>
         </p>
         <p class="auto-style1">
-            <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+            <asp:TextBox ID="TextBox2" placeholder="插入的url" runat="server"></asp:TextBox>
         </p>
         <p class="auto-style1">
             <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="确定插入" />

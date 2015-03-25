@@ -8,10 +8,10 @@ namespace tissot.admin
 {
     public class connadmin
     {
-        public static bool CountBonusByDateAndAmount(string adminname, string password)
+        public  bool CountBonusByDateAndAmount(string adminname, string password)
         {
 
-            int conn = (int)tissot.SystemDAO.SqlHelper.ExecuteScalarText("select count(1) from admin where adminname=@admin and password=@password",
+            int conn = (int)tissot.SystemDAO.SqlHelper.ExecuteScalarText("select count(1) from admin where adminname=@adminname and password=@password",
                  new System.Data.SqlClient.SqlParameter("@adminname", adminname),
                  new System.Data.SqlClient.SqlParameter("@password", password)
 
@@ -19,7 +19,7 @@ namespace tissot.admin
             if (conn == 1)
             {
 
-                System.Web.HttpContext.Current.Session["UserName"] = adminname;
+                System.Web.HttpContext.Current.Session["adminname"] = adminname;
                 return true;
             }
             else
