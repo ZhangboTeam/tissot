@@ -1,13 +1,57 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Serch.aspx.cs" Inherits="tissot.Serch" %>
-<%--<script >
-    
+<script runat="server" >
 
-        var cmd = new System.Data.SqlClient.SqlCommand();
-        var cn = new System.Data.SqlClient.SqlConnection(System.Web.Configuration.WebConfigurationManager.AppSettings["con"]);
-        cmd.Connection = cn;
-        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+    private int Countall;
+    private int Countip;
+    private int Countcity;
+    private int Countname;
+    private int Countos;
+    private int Counttime;
+    public string page= "";
+    protected override void OnLoad(EventArgs e)
+    {
+         base.OnLoad(e);
+         page = this.Request["page"];
+        if (!IsPostBack)
+        {
+             this.LoadData();
+            AspNetPager1.RecordCount = Countall;
+            
+            
+            //bindData(); //使用url分页，只需在分页事件处理程序中绑定数据即可，无需在Page_Load中绑定，否则会导致数据被绑定两次
+        }
+    }
+    private System.Data.SqlClient.SqlDataReader LoadData()
+    {
 
-</script>--%>
+        var dr = tissot.SystemDAO.SqlHelper.ExecuteReaderFromStoredProcedure("eusp_userinfo",
+           new System.Data.SqlClient.SqlParameter("@startIndex", AspNetPager1.StartRecordIndex),
+           new System.Data.SqlClient.SqlParameter("@endIndex", AspNetPager1.EndRecordIndex),
+           new System.Data.SqlClient.SqlParameter("@City", "上海")
+           );
+        this.Countall = (int)tissot.SystemDAO.SqlHelper.ExecuteScalarText("select  isnull(count(*),0) from userinfo  where  city like '%" + this.Request["City"] + "%'");
+        //var cn = new System.Data.SqlClient.SqlConnection(System.Web.Configuration.WebConfigurationManager.AppSettings["con"]);
+        //var dr = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+        //this.Countall = (int)tissot.SystemDAO.SqlHelper.ExecuteScalarText("select  count(*) from userinfo where city like '%' + @city + '%'", city);
+        //this.Countip = (int)tissot.SystemDAO.SqlHelper.ExecuteScalarText("select  count(*) from userinfo where city  like '%' + @city + '%' and code=key;", city);
+        //this.Countname = (int)tissot.SystemDAO.SqlHelper.ExecuteScalarText("select  count(*) from userinfo where city  like '%' + @ky + '%' and city=key;", City1);
+
+        //this.Countcity = tissot.SystemDAO.SqlHelper.ExecuteScalarText("select  count(distinct([city] )) from userinfo  where city  like '%' + @ky + '%' ", City1);
+        return dr;
+    }
+    public override void DataBind()
+    {
+        //this.Repeater1.DataSource = this.LoadData();
+        base.DataBind();
+    }
+
+
+    protected void AspNetPager1_PageChanged(object src, EventArgs e)
+    {
+        this.DataBind();
+    }
+  
+</script>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -15,40 +59,71 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>管理员登录</title>
     <style type="text/css">
-        .auto-style2 {
-            font-weight: bold;
-            height: 22px;
-            color: #003E49;
-            cursor: pointer;
-            border: 1px solid #30B0C8;
-            padding: 0 10px;
-            background: #D0D1D4 url('http://localhost:5906/Admin/images/btn_submit_2.png') repeat-x;
-        }
         .auto-style3 {
             text-align: center;
             width: 671px;
+        }
+    
+footer {  
+    display: block;
+            height: 193px;
+            width: 258px;
+        } 
+
+.post_message {
+text-align: left;
+padding: 5px 0;
+float:left;
+}
+
+.submit_link {
+float: right;
+margin-right: 3%;
+padding: 5px 0;
+}
+
+        .auto-style4 {
+            display: block;
+            height: 319px;
+            width: 289px;
+        }
+        .auto-style6 {
+            text-align: right;
+            height: 807px;
+            width: 866px;
+        }
+        .auto-style7 {
+            text-align: center;
+        }
+        .auto-style8 {
+            display: block;
+            height: 138px;
+            width: 271px;
         }
     </style>
     <script>
 
     </script>
 </head>
-<body style="height: 519px; width: 472px">
+<body style="height: 519px; width: 1049px">
     <form id="form1" runat="server">
+        <div class="auto-style6">
         <div class="auto-style3">
         管理员管理<br />
         </div>
-        
-
-
-        <input type="text" name="City&Code"placeholder="城市或者二维码编号" />
+            <div class="auto-style7">
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input  type="text" name="City"placeholder="城市或者二维码编号" style="width: 195px; margin-left: 0px" />
         <input type="submit" value="搜索" />
-        <%--<input type="text"name="Code" placeholder="二维码编号" />
-        <input type="submit" value="搜索" />--%>
+        <%--<input type="text"name="CityCode" placeholder="二维码编号" />--%>
+        <%--<input type="submit" value="搜索" />--%>
+            </div>
+           
+
 
         <asp:Repeater ID="Repeater1" runat="server" 
              onitemcommand="Repeater1_ItemCommand" DataSourceID="SqlDataSource2" >
-         <HeaderTemplate><table>
+         <HeaderTemplate>
+             <table align="right">
          <tr>
              <td style="width:100px">用户ip</td><td style="width:100px">城市</td>
              <td style="width:100px">系统</td>
@@ -81,22 +156,59 @@
          </SeparatorTemplate>
          <FooterTemplate></table></FooterTemplate>
          </asp:Repeater>
-        
+             <%--<webdiyer:AspNetPager ID="AspNetPager1" runat="server" Width="100%" UrlPaging="true" ShowPageIndexBox="Always" PageIndexBoxType="DropDownList"  
+                    FirstPageText="【首页】"
+    LastPageText="【尾页】" NextPageText="【后页】"
+        PrevPageText="【前页】" NumericButtonTextFormatString="【{0}】"   TextAfterPageIndexBox="页" TextBeforePageIndexBox="转到第"  HorizontalAlign="right" PageSize="10" OnPageChanged="AspNetPager1_PageChanged" EnableTheming="true" CustomInfoHTML="Page  <font color='red'><b>%CurrentPageIndex%</b></font> of  %PageCount%  Order %StartRecordIndex%-%EndRecordIndex%">
+                </webdiyer:AspNetPager>--%>
+        <%--<div class="auto-style4">
+            <label>
+            汇总：&nbsp;&nbsp;&nbsp;&nbsp; 有</label>
+            <label>
+            <%#Countall%>扫码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 共领取</label>
+            <label>
+            <%#Countname %>元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2元的</label>
+            <label>
+            <%#CountCity%>份&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 50元的 <% %>份</label>
+        </div>--%>
+            <footer class="auto-style4">
+                <div class="auto-style4">
+                &nbsp;<div class="auto-style8">
+                        <label>
+                        汇总：&nbsp;&nbsp;&nbsp;&nbsp; 有</label>
+                        <label>
+                        <% %>人扫码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 共有</label>
+                        <label>
+                        <% %>扫<% %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其中</label>
+                        <label>
+                        <% %>扫码人最多&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共有<% %>人</label>
+                    </div>
+            </div>
+        </footer>
+   
 
+            <webdiyer:aspnetpager ID="AspNetPager1"  runat="server" Width="50%" UrlPaging="true" ShowPageIndexBox="Always" PageIndexBoxType="DropDownList"  
+                    FirstPageText="【首页】"
+    LastPageText="【尾页】" NextPageText="【后页】"
+        PrevPageText="【前页】" NumericButtonTextFormatString="【{0}】"   TextAfterPageIndexBox="页" TextBeforePageIndexBox="转到第"  HorizontalAlign="right" PageSize="10" OnPageChanged="AspNetPager1_PageChanged" EnableTheming="true" CustomInfoHTML="Page  <font color='red'><b>%CurrentPageIndex%</b></font> of  %PageCount%  Order %StartRecordIndex%-%EndRecordIndex%">
+                </webdiyer:aspnetpager>
+             <%--<Webdiyer:AspNetPager id="AspNetPager1" runat="server"align="right" HorizontalAlign="Right"  FirstPageText="<<" LastPageText=">>" PrevPageText="<" NextPageText=">" NumericButtonTextFormatString="-{0}-" Width="600px"
 
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [userinfo] WHERE ([name] LIKE '%' + @name + '%')">
+           ShowCustomInfoSection="Left" ShowBoxThreshold="2" PageSize="5"  InputBoxClass="text2" TextAfterInputBox="" OnPageChanging="AspNetPager1_PageChanging"  />--%>
+    
+            <br />
+         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [userinfo] WHERE ([city] LIKE '%' + @name + '%')OR ([name] LIKE '%' + @name + '%')">
+            <SelectParameters>
+                <asp:FormParameter DefaultValue="中国" FormField="City" Name="name" Type="String" />
+            </SelectParameters>
+        </asp:SqlDataSource>
+
+            <%--<asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [userinfo] WHERE ([name] LIKE '%' + @name + '%')">
             <SelectParameters>
                 <asp:FormParameter DefaultValue="00" FormField="Code" Name="name" Type="String" />
             </SelectParameters>
-        </asp:SqlDataSource>
-         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:constr %>" SelectCommand="SELECT * FROM [userinfo] WHERE ([city] LIKE '%' + @name + '%')OR ([name] LIKE '%' + @name + '%')">
-            <SelectParameters>
-                <asp:FormParameter DefaultValue="中国" FormField="City&amp;Code" Name="name" Type="String" />
-            </SelectParameters>
-        </asp:SqlDataSource>
-
-        <br />
-        <br />
+        </asp:SqlDataSource>--%>
+            </div>
     </form>
-</body>
+    </body>
 </html>

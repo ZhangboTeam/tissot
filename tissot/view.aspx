@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="view.aspx.cs" Inherits="tissot.view"  %>
+
 <script runat="server">
 
     public void Page_Load(object sender, EventArgs e)

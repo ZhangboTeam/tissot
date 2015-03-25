@@ -21,6 +21,8 @@ namespace tissot
             /// <summary>
             /// 数据库连接字符串
             /// </summary>
+            /// 
+
 
             public static readonly string connectionString = System.Web.Configuration.WebConfigurationManager.AppSettings["con"].ToString().Trim();
             // Hashtable to store cached parameters
@@ -199,6 +201,26 @@ namespace tissot
                     PrepareCommand(cmd, conn, null, cmdType, cmdText, commandParameters);
                     SqlDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
                     cmd.Parameters.Clear();
+                    return rdr;
+                }
+                catch
+                {
+                    conn.Close();
+                    throw;
+                }
+            }
+            public static SqlDataReader ExecuteReaderFromStoredProcedure(string cmdText, params  SqlParameter[] commandParameters)
+            {
+                SqlCommand cmd = new SqlCommand();
+                SqlConnection conn = new SqlConnection(connectionString);
+                // we use a try/catch here because if the method throws an exception we want to 
+                // close the connection throw code, because no datareader will exist, hence the 
+                // commandBehaviour.CloseConnection will not work
+                try
+                {
+                    PrepareCommand(cmd, conn, null, CommandType.StoredProcedure, cmdText, commandParameters);
+                    SqlDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                    //cmd.Parameters.Clear();坑
                     return rdr;
                 }
                 catch
